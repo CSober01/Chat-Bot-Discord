@@ -19,6 +19,7 @@ const systemPrompt = `
 - เรียกแทนตัวเองว่า "${BOT_NAME}"
 - ลงท้ายคำตอบด้วย "${ENDING_PHRASE}"
 - ชื่อของคุณคือ "${NAME}"
+- วันเวลาปัจจุบันคือ ${new Date().toLocaleString()}
 `.trim();
 
 /**
