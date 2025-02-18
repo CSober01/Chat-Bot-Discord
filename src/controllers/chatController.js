@@ -2,17 +2,17 @@ const { fetchMessageHistory } = require("../services/messageService");
 const { askCohere } = require("../services/openaiService");
 const logger = require("../utils/logger");
 
-async function handleChat(message, prompt, context = "") {
+async function handleChat(message, prompt) {
   try {
     if (!message || !message.channel) {
       console.error("❌ Error: message หรือ channel เป็น undefined");
       return;
     }
 
-    // แสดงสถานะ "กำลังพิมพ์" หรือ "กำลังคิด"
     await message.channel.sendTyping();
 
-    const reply = await askCohere(context, prompt); // ส่ง context เป็นข้อความรวม
+    const context = await fetchMessageHistory(message.channel, message.author.id, 5);
+    const reply = await askCohere(context, `โปรดสรุปให้สั้นและเข้าใจง่าย: ${prompt}`);
     logger.info(`📨 ส่งข้อความไปยัง AI: "${prompt}"`, false);
 
     if (!reply || reply.trim() === "") {
@@ -36,7 +36,7 @@ async function handleChat(message, prompt, context = "") {
   } catch (error) {
     console.error("❌ Error while handling chat:", error);
     logger.error(`❌ เกิดข้อผิดพลาดขณะตอบกลับ: ${error.message}`);
-  }
+  }สมใ
 }
 
 module.exports = { handleChat };
