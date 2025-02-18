@@ -12,14 +12,13 @@ async function handleChat(message, prompt, context = "") {
     // แสดงสถานะ "กำลังพิมพ์" หรือ "กำลังคิด"
     await message.channel.sendTyping();
 
-    const language = detectLanguage(prompt); // ตรวจสอบภาษาของผู้ใช้
-    const reply = await askCohere(context, prompt, language); // ส่ง context เป็นข้อความรวม
+    const reply = await askCohere(context, prompt); // ส่ง context เป็นข้อความรวม
     logger.info(`📨 ส่งข้อความไปยัง AI: "${prompt}"`, false);
 
     if (!reply || reply.trim() === "") {
       logger.warn("⚠️ AI ไม่สามารถสร้างคำตอบได้");
 
-      const response = language === "th" ? "ผมไม่สามารถตอบคำถามนี้ได้ในขณะนี้ครับ 😓" : "I cannot answer this question at the moment 😓";
+      const response = "ผมไม่สามารถตอบคำถามนี้ได้ในขณะนี้ครับ 😓";
       if (typeof message.reply === "function") {
         return message.reply(response);
       } else {
@@ -38,13 +37,6 @@ async function handleChat(message, prompt, context = "") {
     console.error("❌ Error while handling chat:", error);
     logger.error(`❌ เกิดข้อผิดพลาดขณะตอบกลับ: ${error.message}`);
   }
-}
-
-function detectLanguage(text) {
-  // ฟังก์ชันตรวจสอบภาษา (สามารถใช้ library เช่น franc หรือ langdetect)
-  // ตัวอย่างนี้จะใช้การตรวจสอบง่ายๆ
-  const thaiPattern = /[\u0E00-\u0E7F]/;
-  return thaiPattern.test(text) ? "th" : "en";
 }
 
 module.exports = { handleChat };
