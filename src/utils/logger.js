@@ -4,10 +4,15 @@ const chalk = require("chalk");
 const { error } = require("console");
 
 // กำหนดที่อยู่ของไฟล์ log
-const logFilePath = path.join(__dirname, "../logs/bot.log");
+const logDirPath = path.join(__dirname, "../logs");
+const logFilePath = path.join(logDirPath, "bot.log");
 
-// ฟังก์ชันตรวจสอบและสร้างไฟล์ log ถ้าไม่พบ
+// ฟังก์ชันตรวจสอบและสร้างโฟลเดอร์และไฟล์ log ถ้าไม่พบ
 function ensureLogFileExists() {
+  if (!fs.existsSync(logDirPath)) {
+    fs.mkdirSync(logDirPath);
+    console.info("🆕 สร้างโฟลเดอร์ logs ใหม่สำเร็จ!");
+  }
   if (!fs.existsSync(logFilePath)) {
     fs.writeFileSync(logFilePath, "");
     console.info("🆕 สร้างไฟล์ log ใหม่สำเร็จ!");
