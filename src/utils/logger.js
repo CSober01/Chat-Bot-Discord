@@ -17,7 +17,7 @@ function ensureLogFileExists() {
 // ฟังก์ชันจัดการขนาดของไฟล์ log
 function manageLogFileSize() {
   ensureLogFileExists(); // ตรวจสอบและสร้างไฟล์ log ก่อน
-  const maxFileSize = 1 * 1024 * 1024; // 10MB
+  const maxFileSize = 1 * 1024 * 1024; // 1MB
   fs.stat(logFilePath, (err, stats) => {
     if (err) {
       console.error("ไม่สามารถตรวจสอบขนาดไฟล์ log ได้:", err);
